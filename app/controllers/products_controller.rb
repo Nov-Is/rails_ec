@@ -5,7 +5,10 @@ class ProductsController < ApplicationController
     @products = Product.with_attached_image
   end
 
-  def show; end
+  def show
+    @product = Product.find(params[:id])
+    @related_products = Product.where.not(id: @product.id).order(created_at: :desc).limit(4).with_attached_image
+  end
 
   def new; end
 

@@ -1,13 +1,15 @@
 <% products.each do |product| %>
   <div class="col mb-5">
     <div class="card h-100">
-      <!-- Product image-->
-      <%= image_tag product.image %>
+      <%= link_to product_path(product) do %>
+        <!-- Product image-->
+        <%= image_tag product.image.variant(resize_to_fit: [450, 300]), class: "card-img-top" %>
+      <% end %>
       <!-- Product details-->
       <div class="card-body p-4">
         <div class="text-center">
           <!-- Product name-->
-          <h5 class="fw-bolder"><%= product.name %></h5>
+          <h5 class="fw-bolder"><%= link_to product.name, product_path(product) %></h5>
           <!-- Product price-->
           <%= number_to_currency(product.price, unit:"円") %>
         </div>
