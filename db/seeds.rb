@@ -8,11 +8,11 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-5.times do
+5.times do |n|
   Product.create!(
-    name: 'shoes',
+    name: "shoes#{n + 1}",
     description: '靴です',
-    price: 1000,
+    price: 1000 * (n + 1),
     stock: 5,
     image: ActiveStorage::Blob.create_and_upload!(io: File.open(Rails.root.join('app/assets/images/6c757d.jpg')),
                                                   filename: 'test.jpg')
