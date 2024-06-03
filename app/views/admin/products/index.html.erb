@@ -1,0 +1,36 @@
+<h1 class="mb-3 ms-3">商品一覧</h1>
+<%= link_to "新規登録", new_admin_product_path, class: "btn btn-primary mb-3 ms-3" %>
+<div class="mb-3 mx-3">
+  <table class="table">
+    <thead class="thead-default">
+      <tr>
+        <th><%= Product.human_attribute_name(:id) %></th>
+        <th>画像</th>
+        <th><%= Product.human_attribute_name(:name) %></th>
+        <th><%= Product.human_attribute_name(:description) %></th>
+        <th><%= Product.human_attribute_name(:price) %></th>
+        <th><%= Product.human_attribute_name(:stock) %></th>
+        <th><%= Product.human_attribute_name(:created_at) %></th>
+        <th><%= Product.human_attribute_name(:updated_at) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <th><%= product.id %></th>
+          <th><%= image_tag product.image.variant(resize_to_fit: [50, 50]) %></th>
+          <th><%= product.name %></th>
+          <th><%= product.description %></th>
+          <th><%= number_to_currency(product.price, unit:"円") %></th>
+          <th><%= product.stock %></th>
+          <th><%= l product.created_at, format: :long %></th>
+          <th><%= l product.updated_at, format: :long %></th>
+          <th><%= link_to "編集", edit_admin_product_path(product), class: "btn btn-primary" %></th>
+          <th><%= link_to "削除", root_path, class: "btn btn-danger" %></th>
+          <!-- 一時的にリンクをルートに設定 -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
