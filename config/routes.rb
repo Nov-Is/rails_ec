@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :products, only: %i[index create new edit update destroy]
+  end
   root to: 'products#index'
   resources :products
   resources :tasks
