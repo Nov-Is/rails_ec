@@ -22,7 +22,26 @@ module Admin
       end
     end
 
-    def edit; end
+    def edit
+      @product = Product.find(params[:id])
+    end
+
+    def update
+      @product = Product.find(params[:id])
+      if @product.update(product_params)
+        flash[:notice] = "商品「#{@product.name}」を更新しました。"
+        redirect_to admin_products_path
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
+    def destroy
+      product = Product.find(params[:id])
+      product.destroy
+      flash[:notice] = "商品「#{product.name}」を削除しました。"
+      redirect_to admin_products_path
+    end
 
     private
 
