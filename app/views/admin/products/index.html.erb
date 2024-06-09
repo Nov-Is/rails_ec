@@ -1,11 +1,11 @@
-<h1 class="mb-3 ms-3">商品一覧</h1>
+<h1 class="my-3 ms-3">商品一覧</h1>
 <%= link_to "新規登録", new_admin_product_path, class: "btn btn-primary mb-3 ms-3" %>
 <div class="mb-3 mx-3">
   <table class="table">
     <thead class="thead-default">
       <tr>
         <th><%= Product.human_attribute_name(:id) %></th>
-        <th>画像</th>
+        <th><%= Product.human_attribute_name(:image) %></th>
         <th><%= Product.human_attribute_name(:name) %></th>
         <th><%= Product.human_attribute_name(:description) %></th>
         <th><%= Product.human_attribute_name(:price) %></th>
