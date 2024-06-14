@@ -27,8 +27,7 @@
           <th><%= l product.created_at, format: :long %></th>
           <th><%= l product.updated_at, format: :long %></th>
           <th><%= link_to "編集", edit_admin_product_path(product), class: "btn btn-primary" %></th>
-          <th><%= link_to "削除", root_path, class: "btn btn-danger" %></th>
-          <!-- 一時的にリンクをルートに設定 -->
+          <th><%= link_to "削除", [:admin, product], data: {turbo_method: :delete, turbo_confirm: "商品「#{product.name}」を削除します。よろしいですか？"}, class: "btn btn-danger" %></th>
         </tr>
       <% end %>
     </tbody>
