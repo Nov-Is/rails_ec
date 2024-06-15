@@ -73,6 +73,7 @@ group :development do
   gem 'rubocop-rspec', require: false
   gem 'web-console'
 
+  gem 'pry-byebug'
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
