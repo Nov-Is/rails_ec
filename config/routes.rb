@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :carts, only: %i[show]
   namespace :admin do
     resources :products, only: %i[index create new edit update destroy]
   end
