@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   resources :carts, only: %i[show]
+  post '/add_item', to: 'carts#create'
   namespace :admin do
     resources :products, only: %i[index create new edit update destroy]
   end
