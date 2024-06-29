@@ -12,12 +12,18 @@
           <span><%= number_to_currency(@product.price, unit:"円") %></span>
         </div>
         <p class="lead"><%= simple_format(@product.description) %></p>
-        <div class="d-flex">
-          <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-          <button class="btn btn-outline-dark flex-shrink-0" type="button">
-            <i class="bi-cart-fill me-1"></i>
-            カートに追加
-          </button>
+        <%= form_with model: @cart_item, url: add_item_path(@product.id), method: :post, class: "me-3", local: true do |f| %>
+          <div class="d-flex">
+            <div class="me-3">
+              <%= f.select :quantity, [*1..10], { selected: 1 }, class: "form-control text-center" %>
+            </div>
+            <div>
+              <%= f.button type: :submit, class: "btn btn-outline-dark flex-shrink-0" do %>
+                <i class="bi-cart-fill me-1"></i>
+                カートに追加
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
