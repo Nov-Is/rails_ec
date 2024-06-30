@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'orders/create'
   resources :carts, only: %i[show]
   post '/add_item', to: 'carts#create'
   delete '/destroy', to: 'carts#destroy'
