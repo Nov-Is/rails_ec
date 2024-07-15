@@ -6,6 +6,7 @@ class CartsController < ApplicationController
   def show
     @cart_items = current_cart.cart_items.eager_load(:product)
     @total = @cart_items.inject(0) { |sum, product| sum + product.sum_of_price }
+    @order = Order.new
   end
 
   def create
