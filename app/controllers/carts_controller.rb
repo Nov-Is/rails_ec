@@ -4,7 +4,7 @@ class CartsController < ApplicationController
   before_action :set_product_id, :setup_cart_item!, only: %i[create destroy]
 
   def show
-    @cart_items = current_cart.cart_items.eager_load(:product)
+    @cart_items = current_cart.cart_items_load
     @total = @cart_items.inject(0) { |sum, product| sum + product.sum_of_price }
     @order = Order.new
   end

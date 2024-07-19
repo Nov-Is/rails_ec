@@ -7,8 +7,7 @@ class OrdersController < ApplicationController
       flash[:notice] = '購入ありがとうございます。'
       redirect_to root_path
     else
-      # binding.pry
-      @cart_items = current_cart.cart_items.eager_load(:product)
+      @cart_items = current_cart.cart_items_load
       @total = @cart_items.inject(0) { |sum, product| sum + product.sum_of_price }
       flash[:notice] = '購入できませんでした。'
       render '/carts/show', status: :unprocessable_entity
