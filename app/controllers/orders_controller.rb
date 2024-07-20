@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
       redirect_to root_path
     else
       @cart_items = current_cart.cart_items_load
-      @total = @cart_items.inject(0) { |sum, product| sum + product.sum_of_price }
+      @total = current_cart.total_price
       flash[:notice] = '購入できませんでした。'
       render '/carts/show', status: :unprocessable_entity
     end

@@ -5,7 +5,7 @@ class CartsController < ApplicationController
 
   def show
     @cart_items = current_cart.cart_items_load
-    @total = @cart_items.inject(0) { |sum, product| sum + product.sum_of_price }
+    @total = current_cart.total_price
     @order = Order.new
   end
 

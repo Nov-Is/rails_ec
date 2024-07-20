@@ -6,4 +6,8 @@ class Cart < ApplicationRecord
   def cart_items_load
     cart_items.eager_load(:product)
   end
+
+  def total_price
+    cart_items_load.inject(0) { |sum, product| sum + product.sum_of_price }
+  end
 end
