@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_29_152236) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_15_051020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,10 +67,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_29_152236) do
     t.string "municipality", null: false
     t.string "street", null: false
     t.string "name_on_card", null: false
-    t.integer "credit_cart_number", null: false
+    t.bigint "credit_cart_number", null: false
     t.string "expiration", null: false
     t.integer "cvv", null: false
-    t.integer "billing_amount", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
