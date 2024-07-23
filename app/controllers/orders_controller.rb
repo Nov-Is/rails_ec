@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(params_purchase_info)
     if @order.save
+      OrderMailer.order_confirmation(@order).deliver_now
       flash[:notice] = '購入ありがとうございます。'
       redirect_to root_path
     else
