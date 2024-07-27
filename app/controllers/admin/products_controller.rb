@@ -5,7 +5,7 @@ module Admin
     before_action :basic_auth
 
     def index
-      @products = Product.with_attached_image
+      @products = Product.order(created_at: :asc).with_attached_image
     end
 
     def new
