@@ -1,2 +1,54 @@
-<h1>OrderDetails#show</h1>
-<p>Find me in app/views/order_details/show.html.erb</p>
+<h1 class="my-3 ms-3">購入明細</h1>
+<div class="my-5 mx-3">
+  <h2>注文者情報</h2>
+  <table class="table">
+    <tr>
+      <th>Order_ID</th>
+      <td><%= @order_log.id %></td>
+    </tr>
+    <tr>
+      <th><%= Order.human_attribute_name(:name) %></th>
+      <td><%= "#{@order_log.last_name} #{@order_log.first_name}" %></td>
+    </tr>
+    <tr>
+      <th><%= Order.human_attribute_name(:username) %></th>
+      <td><%= @order_log.username %></td>
+    </tr>
+    <tr>
+      <th><%= Order.human_attribute_name(:zip) %></th>
+      <td><%= @order_log.zip.to_s.sub(/\A(\d{3})(\d{4})\z/, '\1-\2') %></td>
+    </tr>
+    <tr>
+      <th><%= Order.human_attribute_name(:email) %></th>
+      <td><%= @order_log.email %></td>
+    </tr>
+    <tr>
+      <th>住所</th>
+      <td><%= "#{@order_log.prefecture} #{@order_log.municipality} #{@order_log.street}" %></td>
+    </tr>
+  </table>
+</div>
+<div class="my-5 mx-3">
+  <h2>購入商品</h2>
+  <table class="table">
+    <thead class="thead-default">
+      <tr>
+        <th><%= OrderDetail.human_attribute_name(:product_name) %></th>
+        <th><%= OrderDetail.human_attribute_name(:price) %></th>
+        <th><%= OrderDetail.human_attribute_name(:quantity) %></th>
+        <th>小計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <th><%= item.product_name %></th>
+          <th><%= number_to_currency(item.price, unit:"円") %></th>
+          <th><%= item.quantity %></th>
+          <th><%= number_to_currency(item.price * item.quantity, unit:"円") %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="fw-semibold"><%= "合計金額: #{number_to_currency(@order_log.billing_amount, unit:"円")}" %></p>
+</div>

@@ -48,11 +48,5 @@ module Admin
     def product_params
       params.require(:product).permit(:name, :price, :stock, :description, :image)
     end
-
-    def basic_auth
-      authenticate_or_request_with_http_basic do |username, password|
-        username == 'admin' && password == 'pw'
-      end
-    end
   end
 end

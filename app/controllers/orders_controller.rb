@@ -2,9 +2,10 @@
 
 class OrdersController < ApplicationController
   def create
-    @order = Order.new(params_purchase_info)
     @cart_items = current_cart.cart_items_load
     @total = current_cart.total_price
+    @order = Order.new(params_purchase_info)
+    @order.update(billing_amount: @total)
     if @order.save
       ApplicationRecord.transaction do
         # カートから商品を一つずつ取り出して処理
@@ -17,8 +18,7 @@ class OrdersController < ApplicationController
         session.delete(:cart_id)
       end
       OrderMailer.order_confirmation(@order).deliver_now
-      flash[:notice] = '購入ありがとうございます。'
-      redirect_to root_path
+      redirect_to root_path, notice: '購入ありがとうございます。'
     else
       flash[:notice] = '購入できませんでした。'
       render '/carts/show', status: :unprocessable_entity

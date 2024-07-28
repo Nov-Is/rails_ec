@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class OrderDetailsController < ApplicationController
-  def index; end
+  before_action :basic_auth
+  def index
+    @order_logs = Order.all
+  end
 
-  def show; end
+  def show
+    @order_log = Order.find(params[:id])
+    @items = OrderDetail.where(order_id: params[:id])
+  end
 end

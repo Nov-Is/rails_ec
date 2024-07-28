@@ -17,6 +17,17 @@ ja:
         image: 画像
         created_at: 登録日時
         updated_at: 更新日時
+      order:
+        name: 名前
+        username: ユーザー名
+        billing_amount: 支払金額
+        zip: 郵便番号
+        email: メールアドレス
+        created_at: 購入日時
+      order_detail:
+        product_name: 商品名
+        price: 価格
+        quantity: 数量
   date:
     abbr_day_names:
     - 日
