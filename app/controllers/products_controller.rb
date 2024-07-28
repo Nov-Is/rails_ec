@@ -2,7 +2,7 @@
 
 class ProductsController < ApplicationController
   def index
-    @products = Product.with_attached_image
+    @products = Product.order(created_at: :desc).with_attached_image
   end
 
   def show
