@@ -4,27 +4,27 @@
   <table class="table">
     <tr>
       <th>Order_ID</th>
-      <td><%= @order_log.id %></td>
+      <td><%= @order.id %></td>
     </tr>
     <tr>
       <th><%= Order.human_attribute_name(:name) %></th>
-      <td><%= "#{@order_log.last_name} #{@order_log.first_name}" %></td>
+      <td><%= "#{@order.last_name} #{@order.first_name}" %></td>
     </tr>
     <tr>
       <th><%= Order.human_attribute_name(:username) %></th>
-      <td><%= @order_log.username %></td>
+      <td><%= @order.username %></td>
     </tr>
     <tr>
       <th><%= Order.human_attribute_name(:zip) %></th>
-      <td><%= @order_log.zip.to_s.sub(/\A(\d{3})(\d{4})\z/, '\1-\2') %></td>
+      <td><%= @order.zip.to_s.sub(/\A(\d{3})(\d{4})\z/, '\1-\2') %></td>
     </tr>
     <tr>
       <th><%= Order.human_attribute_name(:email) %></th>
-      <td><%= @order_log.email %></td>
+      <td><%= @order.email %></td>
     </tr>
     <tr>
       <th>住所</th>
-      <td><%= "#{@order_log.prefecture} #{@order_log.municipality} #{@order_log.street}" %></td>
+      <td><%= "#{@order.prefecture} #{@order.municipality} #{@order.street}" %></td>
     </tr>
   </table>
 </div>
@@ -50,5 +50,5 @@
       <% end %>
     </tbody>
   </table>
-  <p class="fw-semibold"><%= "合計金額: #{number_to_currency(@order_log.billing_amount, unit:"円")}" %></p>
+  <p class="fw-semibold"><%= "合計金額: #{number_to_currency(@order.billing_amount, unit:"円")}" %></p>
 </div>

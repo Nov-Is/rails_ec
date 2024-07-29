@@ -11,13 +11,13 @@
       </tr>
     </thead>
     <tbody>
-      <% @order_logs.each do |order_log| %>
+      <% @orders.each do |order| %>
         <tr>
-          <th><%= order_log.id %></th>
-          <th><%= "#{order_log.last_name} #{order_log.first_name}" %></th>
-          <th><%= number_to_currency(order_log.billing_amount, unit:"円") %></th>
-          <th><%= l order_log.created_at, format: :long %></th>
-          <th><%= link_to "詳細", order_detail_path(order_log), class: "btn btn-primary" %></th>
+          <th><%= order.id %></th>
+          <th><%= "#{order.last_name} #{order.first_name}" %></th>
+          <th><%= number_to_currency(order.billing_amount, unit:"円") %></th>
+          <th><%= l order.created_at, format: :long %></th>
+          <th><%= link_to "詳細", order_detail_path(order), class: "btn btn-primary" %></th>
         </tr>
       <% end %>
     </tbody>
