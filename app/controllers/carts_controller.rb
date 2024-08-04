@@ -7,6 +7,7 @@ class CartsController < ApplicationController
     @cart_items = current_cart.cart_items_load
     @total = current_cart.total_price
     @order = Order.new
+    @promotion_code = (PromotionCode.find(params[:p_code_id]) if params[:p_code_id])
   end
 
   def create

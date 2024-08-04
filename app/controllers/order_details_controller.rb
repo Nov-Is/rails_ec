@@ -8,6 +8,6 @@ class OrderDetailsController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
-    @items = OrderDetail.where(order_id: params[:id])
+    @items = OrderDetail.order_id(params[:id])
   end
 end

@@ -22,29 +22,44 @@
               <%= link_to "削除", (destroy_path(product_id: cart_item.product.id)), data: {turbo_method: :delete, turbo_confirm: "商品「#{cart_item.product.name}」を削除します。よろしいですか？"}, class: "btn btn-danger" %>
             </li>
           <% end %>
-          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-            <div class="text-success">
-              <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
-            </div>
-            <span class="text-success">−$5</span>
-          </li>
+          <% if @promotion_code %>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-success">
+                <%= @promotion_code.promotion_code %>
+              </div>
+              <span class="text-success"><%= "-#{number_to_currency(@promotion_code.discount_amount, unit: "円")}" %></span>
+            </li>
+          <% end %>
           <li class="list-group-item d-flex justify-content-between">
             <span>合計金額</span>
             <strong>
-              <%= number_to_currency(@total, unit:"円") %>
+              <% if @promotion_code %>
+                <% if (@total - @promotion_code.discount_amount) >= 0 %>
+                  <%= number_to_currency((@total - @promotion_code.discount_amount), unit:"円") %>
+                <% else %>
+                  0円
+                <% end %>
+              <% else %>
+                <%= number_to_currency(@total, unit:"円") %>
+              <% end %>
             </strong>
           </li>
         </ul>
-        <form class="card p-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Promo code">
-            <button type="submit" class="btn btn-secondary">Redeem</button>
-          </div>
-        </form>
+        <div>
+          <% unless @promotion_code %>
+            <%= form_with url: promotion_code_path(p_code_id: params[:p_code_id]), model: PromotionCode.new, method: :patch, class:"row", local: true do |promocode| %>
+              <form class="card p-2">
+                <div class="input-group">
+                  <%= promocode.text_field :promotion_code, class: "form-control", placeholder: "Promo code" %>
+                  <%= promocode.submit "適用", class: "btn btn-secondary" %>
+                </div>
+              </form>
+            <% end %>
+          <% end %>
+        </div>
       </div>
       <div class="col-md-7 col-lg-8">
-        <%= form_with url: orders_create_path, model: @order, method: :post, class:"row",  local: true do |form| %>
+        <%= form_with url: orders_create_path(p_code_id: params[:p_code_id]), model: @order, method: :post, class:"row",  local: true do |form| %>
           <h4 class="mb-3">お客様情報</h4>
           <div class="row g-3">
             <div class="col-sm-6">

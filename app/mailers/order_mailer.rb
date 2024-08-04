@@ -5,6 +5,7 @@ class OrderMailer < ApplicationMailer
 
   def order_confirmation(order)
     @order = order
+    @items = OrderDetail.order_id(@order.id)
     mail(
       subject: 'ご購入ありがとうございます。',
       to: @order.email

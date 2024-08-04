@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :promotion_codes, only: %i[update]
   resources :order_details, only: %i[index show]
   post 'orders/create'
   resources :carts, only: %i[show]
