@@ -13,4 +13,6 @@ class Order < ApplicationRecord
   validates :credit_cart_number, presence: true
   validates :expiration, presence: true
   validates :cvv, presence: true
+
+  has_one :promotion_code, dependent: :destroy
 end

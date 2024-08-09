@@ -2,7 +2,7 @@
 
 class Cart < ApplicationRecord
   has_many :cart_items, dependent: :destroy
-  has_one :promotion_code, dependent: :destroy
+  has_one :promotion_code, dependent: :nullify
 
   def cart_items_load
     cart_items.eager_load(:product)

@@ -7,6 +7,7 @@ class CreatePromotionCodes < ActiveRecord::Migration[7.0]
       t.integer :discount_amount, null: false
       t.boolean :available, null: false
       t.references :cart, foreign_key: true, index: { unique: true }
+      t.references :order, foreign_key: true, index: { unique: true }
 
       t.timestamps
     end
