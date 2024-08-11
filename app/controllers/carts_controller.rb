@@ -7,6 +7,7 @@ class CartsController < ApplicationController
     @cart_items = current_cart.cart_items_load
     @total = current_cart.total_price
     @order = Order.new
+    current_cart
   end
 
   def create
