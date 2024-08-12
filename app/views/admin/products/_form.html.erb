@@ -1,7 +1,7 @@
 <div class="nav justify-content-end">
   <%= link_to "一覧", admin_products_path, class: "btn btn-primary me-4" %>
 </div>
-<%= render partial: "shared/error_messages", locals: { product: product } %>
+<%= render partial: "shared/error_messages", locals: { model: product } %>
 <div class="row">
   <%= form_with model: [:admin, @product], class: "row", local: true do |form| %>
     <div class="form-group m-2 col-3">

@@ -1,3 +1,4 @@
 <h1>注文確認メール</h1>
 <p><%= @order.last_name %>さん、ご購入ありがとうございます！</p>
 <p>注文を受け付けました。</p>
+<%= render partial: "shared/order_details", locals: { order: @order, items: @items, promotion_code: @promotion_code } %>
