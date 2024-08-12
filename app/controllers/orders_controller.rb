@@ -7,14 +7,12 @@ class OrdersController < ApplicationController
     @order = Order.new(params_purchase_info)
     @order.billing_amount = @cart.promotion_code.present? ? @total - @cart.promotion_code.discount_amount : @total
 
-    total_valid = true
-    ApplicationRecord.transaction do
-      total_valid &= @order.save
-      total_valid &= process_items_one_by_one
-      total_valid &= update_promotion_code
-      raise ActiveRecord::Rollback unless total_valid
-    end
-    if total_valid
+    if @order.valid?
+      ApplicationRecord.transaction do
+        @order.save!
+        process_items_one_by_one
+        update_promotion_code
+      end
       delete_cart_and_session
       send_mail(@order)
     else
@@ -31,8 +29,8 @@ class OrdersController < ApplicationController
 
   # cart_itemをdbに保存
   def order_create(cart_item, order_id)
-    OrderDetail.create(product_name: cart_item.product.name, price: cart_item.product.price,
-                       quantity: cart_item.quantity, order_id:)
+    OrderDetail.create!(product_name: cart_item.product.name, price: cart_item.product.price,
+                        quantity: cart_item.quantity, order_id:)
   end
 
   # 在庫処理
@@ -43,14 +41,13 @@ class OrdersController < ApplicationController
 
   # カートから商品を一つずつ取り出して処理
   def process_items_one_by_one
-    all_valid = true
     @cart_items.each do |cart_item|
       @order_details = order_create(cart_item, @order.id)
       product = Product.find(cart_item.product_id)
-      all_valid &= product.stock >= cart_item.quantity
+      raise '在庫不足です。' unless product.stock >= cart_item.quantity
+
       inventory_processing(product, cart_item.quantity)
     end
-    all_valid
   end
 
   # プロモーションコードにorder_id、使用済みに変更
