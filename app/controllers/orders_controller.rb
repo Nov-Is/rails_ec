@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
   def update_promotion_code
     return true if @cart.promotion_code.blank?
 
-    PromotionCode.find(@cart.promotion_code.id).update!(order_id: @order.id, available: false)
+    @cart.promotion_code.update!(order_id: @order.id, available: false)
   end
 
   # カート及びセッション削除
