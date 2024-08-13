@@ -1,7 +1,7 @@
-<% if product.errors.present? %>
+<% if model.errors.present? %>
   <div id="explanation" class="alert alert-danger my-3">
     <ul class="mb-0">
-      <% product.errors.full_messages.each do |message| %>
+      <% model.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>

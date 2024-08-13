@@ -8,6 +8,7 @@ class OrderDetailsController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
-    @items = OrderDetail.where(order_id: params[:id])
+    @items = OrderDetail.items(params[:id])
+    @promotion_code = PromotionCode.applied(params[:id])
   end
 end

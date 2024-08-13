@@ -5,23 +5,18 @@ class OrdersController < ApplicationController
     @cart_items = current_cart.cart_items_load
     @total = current_cart.total_price
     @order = Order.new(params_purchase_info)
-    @order.update(billing_amount: @total)
-    if @order.save
+    @order.billing_amount = @cart.promotion_code.present? ? @total - @cart.promotion_code.discount_amount : @total
+
+    if @order.valid?
       ApplicationRecord.transaction do
-        # カートから商品を一つずつ取り出して処理
-        @cart_items.each do |cart_item|
-          @order_details = order_create(cart_item, @order.id)
-          product = Product.find(cart_item.product_id)
-          inventory_processing(product, cart_item.quantity)
-        end
-        @cart.destroy
-        session.delete(:cart_id)
+        @order.save!
+        process_items_one_by_one
+        update_promotion_code
       end
-      OrderMailer.order_confirmation(@order).deliver_now
-      redirect_to root_path, notice: '購入ありがとうございます。'
+      delete_cart_and_session
+      send_mail(@order)
     else
-      flash[:notice] = '購入できませんでした。'
-      render '/carts/show', status: :unprocessable_entity
+      else_process
     end
   end
 
@@ -34,15 +29,50 @@ class OrdersController < ApplicationController
 
   # cart_itemをdbに保存
   def order_create(cart_item, order_id)
-    OrderDetail.create(product_name: cart_item.product.name, price: cart_item.product.price,
-                       quantity: cart_item.quantity, order_id:)
+    OrderDetail.create!(product_name: cart_item.product.name, price: cart_item.product.price,
+                        quantity: cart_item.quantity, order_id:)
   end
 
   # 在庫処理
   def inventory_processing(product, cart_item_quantity)
-    raise '在庫不足です。' unless product.stock >= cart_item_quantity
-
     product.stock -= cart_item_quantity
     product.update(stock: product.stock)
+  end
+
+  # カートから商品を一つずつ取り出して処理
+  def process_items_one_by_one
+    @cart_items.each do |cart_item|
+      @order_details = order_create(cart_item, @order.id)
+      product = Product.find(cart_item.product_id)
+      raise '在庫不足です。' unless product.stock >= cart_item.quantity
+
+      inventory_processing(product, cart_item.quantity)
+    end
+  end
+
+  # プロモーションコードにorder_id、使用済みに変更
+  def update_promotion_code
+    return true if @cart.promotion_code.blank?
+
+    @cart.promotion_code.update!(order_id: @order.id, available: false)
+  end
+
+  # カート及びセッション削除
+  def delete_cart_and_session
+    remove_instance_variable :@cart
+    session.delete(:cart_id)
+  end
+
+  # メール送信
+  def send_mail(order)
+    OrderMailer.order_confirmation(order).deliver_now
+    redirect_to root_path, notice: '購入ありがとうございます。'
+  end
+
+  # else処理
+  def else_process
+    current_cart
+    flash[:notice] = '購入できませんでした。'
+    render '/carts/show', status: :unprocessable_entity
   end
 end

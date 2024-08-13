@@ -19,10 +19,19 @@ ja:
         updated_at: 更新日時
       order:
         name: 名前
+        last_name: 姓
+        first_name: 名
         username: ユーザー名
         billing_amount: 支払金額
         zip: 郵便番号
+        prefecture: 都道府県
+        municipality: 市区町村
+        street: 番地・建物名等
         email: メールアドレス
+        name_on_card: 名義
+        credit_cart_number: 番号
+        expiration: 有効期限
+        cvv: セキュリティコード
         created_at: 購入日時
       order_detail:
         product_name: 商品名

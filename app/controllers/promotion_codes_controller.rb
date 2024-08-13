@@ -3,7 +3,7 @@
 class PromotionCodesController < ApplicationController
   def update
     promotion_code = PromotionCode.find_by(promotion_code: params[:cart][:promotion_code])
-    if promotion_code.cart_id.present?
+    if promotion_code.blank? || promotion_code.cart_id.present?
       flash[:notice] = 'このコードは使用されています。'
       redirect_to cart_path(current_cart)
       return
